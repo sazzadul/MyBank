@@ -20,5 +20,10 @@ public interface AccountWS {
     @Produces(value={"text/plain"})
     @Path(value="/ping")
     public abstract String ping();
+    
+    @GET
+    @Produces(value={"text/plain"})
+    @Path("/retrieveAccount/{accountNr}")
+    public abstract String retrieveAccount(@PathParam(value="accountNr") String accountNr);
 
 }

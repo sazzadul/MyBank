@@ -52,5 +52,14 @@ public class AccountServiceImpl implements AccountService {
 	@Autowired
 	public void setAccountDao(AccountDao accountDao) {
 		this.accountDao = accountDao;
+	}
+
+	@Override
+	public AccountInfo retrieveAccount(String accountNr) throws ESException {
+		log.debug("retrieveAccount() - entered");
+		ESConnection.getSingletonObject().openConnection();
+		AccountInfo accountInfo = accountDao.retrieveAccount(accountNr);
+		ESConnection.getSingletonObject().closeConnection();
+		return accountInfo;
 	}	
 }

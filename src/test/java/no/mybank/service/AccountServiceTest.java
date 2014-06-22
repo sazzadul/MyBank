@@ -27,6 +27,16 @@ public class AccountServiceTest {
 	private AccountService service;
 	
 	@Test
+	public void retrieveAccount() {
+		String accountNr = "4817.39.89917";
+		try {
+			AccountInfo accountInfo = service.retrieveAccount(accountNr);
+		} catch (ESException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	@Test
 	public void createAccounts() {
 		ArrayList<AccountInfo> accountInfos = new ArrayList<AccountInfo>();
 		AccountInfo accountInfo = new AccountInfo();

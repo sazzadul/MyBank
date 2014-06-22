@@ -67,4 +67,13 @@ public class AccountInfo implements Serializable {
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
+	
+	@Override
+	public String toString() {
+		return "AccountInfo [accountNumber=" + accountNumber
+				+ ", accountOwner=" + accountOwner + ", accountType="
+				+ accountType + ", currencyType=" + currencyType + ", status="
+				+ status + ", balance=" + balance + ", created=" + created
+				+ ", lastupdated=" + lastupdated + "]";
+	}
 }

@@ -72,4 +72,26 @@ public class AccountWSImpl implements AccountWS {
 		return "pong";
 	}
 
+	@Override
+	public String retrieveAccount(String accountNr) {
+		log.debug("retrieveAccount() - entered, accountNr = " + accountNr);
+		AccountInfo info = null;
+		String msg = null;
+		
+		try {
+			StopWatch stopWatch = new StopWatch();
+			stopWatch.start();
+		    info = accountService.retrieveAccount(accountNr);
+			stopWatch.stop();
+		} catch (ESException e) {
+			msg = "Could not create accounts";
+			log.error(msg, e);
+		}
+		if (info == null) {
+			return "Account not found";
+		} else {
+			return info.toString();
+		}
+	}
+
 }
