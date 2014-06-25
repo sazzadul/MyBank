@@ -11,10 +11,12 @@ import no.mybank.util.BalanceGenerator;
 import no.mybank.util.CurrencyTypeGenerator;
 import no.mybank.util.NameGenerator;
 
+import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -23,12 +25,18 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 public class AccountServiceTest {
 	private final static int NUM_OF_ACCOUNTS = 5;
 
-	@Autowired
 	private AccountService service;
 	
-	@Test
+	@Before
+	public void setup() {
+		ConfigurableApplicationContext context = new ClassPathXmlApplicationContext("application-context.xml");
+		service = (AccountService) context.getBean("accountServiceProxy");
+		context.close();
+	}
+	
+	@Ignore @Test
 	public void retrieveAccount() {
-		String accountNr = "4817.39.89917";
+		String accountNr = "3706.18.97631";
 		try {
 			AccountInfo accountInfo = service.retrieveAccount(accountNr);
 		} catch (ESException e) {
