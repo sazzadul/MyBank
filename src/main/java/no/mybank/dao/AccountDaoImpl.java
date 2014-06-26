@@ -15,8 +15,6 @@ import org.elasticsearch.search.SearchHit;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.fasterxml.jackson.core.JsonParseException;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Repository("accountDao")
@@ -88,9 +86,9 @@ public class AccountDaoImpl implements AccountDao {
 	}
 
 	@Override
-	public AccountInfo retrieveAccount(String accountNr) throws ESException {
+	public String retrieveAccount(String accountNr) throws ESException {
 		log.debug("retrieveAccount() - entered, accountNr=" + accountNr);
-		AccountInfo accountInfo = null;
+		String accountInfo = null;
 		try {
 			Client client = esConnection.getClient();
 		
@@ -107,17 +105,11 @@ public class AccountDaoImpl implements AccountDao {
 				java.util.Iterator<SearchHit> hit_it = response.getHits().iterator();
 				while(hit_it.hasNext()){
 					SearchHit hit = hit_it.next();
-					accountInfo = mapper.readValue(hit.getSourceAsString().getBytes(), AccountInfo.class);
+					accountInfo = hit.getSourceAsString();
 				}
 			}
 			return accountInfo;
-		} catch (JsonParseException e) {
-			log.error(e);
-			throw new ESException(e.getMessage());
-		} catch (JsonMappingException e) {
-			log.error(e);
-			throw new ESException(e.getMessage());
-		} catch (IOException e) {
+		} catch (Exception e) {
 			log.error(e);
 			throw new ESException(e.getMessage());
 		}

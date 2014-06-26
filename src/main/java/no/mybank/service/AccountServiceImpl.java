@@ -44,9 +44,8 @@ public class AccountServiceImpl implements AccountService {
 	}
 
 	@Override
-	public AccountInfo retrieveAccount(String accountNr) throws ESException {
+	public String retrieveAccount(String accountNr) throws ESException {
 		log.debug("retrieveAccount() - entered");
-		AccountInfo accountInfo = accountDao.retrieveAccount(accountNr);
-		return accountInfo;
+		return accountDao.retrieveAccount(accountNr);
 	}	
 }

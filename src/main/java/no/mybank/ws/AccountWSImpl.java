@@ -16,6 +16,11 @@ import no.mybank.util.StopWatch;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParser;
+
 public class AccountWSImpl implements AccountWS {
 	private static Logger log = Logger.getLogger(AccountWSImpl.class);
 	
@@ -75,22 +80,27 @@ public class AccountWSImpl implements AccountWS {
 	@Override
 	public String retrieveAccount(String accountNr) {
 		log.debug("retrieveAccount() - entered, accountNr = " + accountNr);
-		AccountInfo info = null;
+		String jsonString = null;
 		String msg = null;
 		
 		try {
 			StopWatch stopWatch = new StopWatch();
 			stopWatch.start();
-		    info = accountService.retrieveAccount(accountNr);
+			jsonString = accountService.retrieveAccount(accountNr);
 			stopWatch.stop();
 		} catch (ESException e) {
 			msg = "Could not create accounts";
 			log.error(msg, e);
 		}
-		if (info == null) {
+		if (jsonString == null) {
 			return "Account not found";
 		} else {
-			return info.toString();
+			JsonParser parser = new JsonParser();
+			Gson gson = new GsonBuilder().setPrettyPrinting().create();
+
+			JsonElement el = parser.parse(jsonString);
+			jsonString = gson.toJson(el);
+			return jsonString;
 		}
 	}
 

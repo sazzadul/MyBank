@@ -38,7 +38,7 @@ public class AccountServiceTest {
 	public void retrieveAccount() {
 		String accountNr = "3706.18.97631";
 		try {
-			AccountInfo accountInfo = service.retrieveAccount(accountNr);
+			String accountInfo = service.retrieveAccount(accountNr);
 		} catch (ESException e) {
 			e.printStackTrace();
 		}
